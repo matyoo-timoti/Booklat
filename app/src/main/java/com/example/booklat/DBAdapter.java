@@ -70,11 +70,11 @@ public class DBAdapter {
 
     // Insert book into the database
 
-    public long insertBook(String title, String author, int Year) {
+    public long insertBook(String title, String author, int year) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TITLE, title);
         initialValues.put(KEY_AUTHOR, author);
-        initialValues.put(KEY_YEAR, 2022);
+        initialValues.put(KEY_YEAR, year);
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
 

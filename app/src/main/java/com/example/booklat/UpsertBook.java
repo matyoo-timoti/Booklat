@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AddEditEntry extends AppCompatActivity {
+public class UpsertBook extends AppCompatActivity {
 
     Button btnSave, btnCancel;
     EditText edTxtTitle, edTxtAuthor, edTxtYear;
@@ -26,6 +26,9 @@ public class AddEditEntry extends AppCompatActivity {
         edTxtTitle = findViewById(R.id.editTextTitle);
         edTxtAuthor = findViewById(R.id.editTextAuthor);
         edTxtYear = findViewById(R.id.editTextYear);
+
+
+        // Save button Listener
 
         btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener(view -> {
@@ -45,6 +48,9 @@ public class AddEditEntry extends AppCompatActivity {
             // Close database connection.
             dbAdapter.close();
         });
+
+
+        // Cancel button listener
 
         btnCancel = findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(view -> {

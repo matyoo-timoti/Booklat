@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Booklat">
         <activity
-            android:name=".AddEditEntry"
+            android:name=".UpsertBook"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

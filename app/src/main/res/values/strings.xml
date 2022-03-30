@@ -11,4 +11,6 @@
     <string name="cancel">CANCEL</string>
     <string name="save">SAVE</string>
     <string name="add_new_book">Add New Book</string>
+    <string name="author">Author</string>
+    <string name="book_icon">Book Icon</string>
 </resources>
