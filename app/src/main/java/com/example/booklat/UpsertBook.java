@@ -19,9 +19,9 @@ public class UpsertBook extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_edit_entry);
+        setContentView(R.layout.activity_upsert);
 
-        DBAdapter dbAdapter = new DBAdapter(this);
+        SqLiteDatabase SQLiteDatabase = new SqLiteDatabase(this);
 
         edTxtTitle = findViewById(R.id.editTextTitle);
         edTxtAuthor = findViewById(R.id.editTextAuthor);
@@ -39,14 +39,14 @@ public class UpsertBook extends AppCompatActivity {
             }
 
             // Open database connection.
-            dbAdapter.open();
+            SQLiteDatabase.open();
 
             // Add the information from input to the database.
-            long id = dbAdapter.insertBook(title, author, Integer.parseInt(String.valueOf(year)));
+            long id = SQLiteDatabase.insertBook(title, author, Integer.parseInt(String.valueOf(year)));
 
 
             // Close database connection.
-            dbAdapter.close();
+            SQLiteDatabase.close();
         });
 
 

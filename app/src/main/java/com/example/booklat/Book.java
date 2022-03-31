@@ -2,19 +2,19 @@ package com.example.booklat;
 
 public class Book {
 
-    private final long id;
+    private final int id;
     private final String title;
     private final String author;
-    private final Integer year;
+    private final Integer publishedYear;
 
-    public Book(long id, String title, String author, Integer year) {
+    public Book(int id, String title, String author, Integer publishedYear) {
         this.id = id;
         this.title = title;
         this.author = author;
-        this.year = year;
+        this.publishedYear = publishedYear;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -26,7 +26,7 @@ public class Book {
         return author;
     }
 
-    public Integer getYear() {
-        return year;
+    public Integer getPublishedYear() {
+        return publishedYear;
     }
 }
