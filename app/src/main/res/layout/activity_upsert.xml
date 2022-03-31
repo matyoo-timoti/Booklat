@@ -40,7 +40,7 @@
         android:text="@string/author_name"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/txtFieldTitle" />
 
     <TextView
         android:id="@+id/textViewYear"
@@ -52,7 +52,7 @@
         android:text="@string/year_of_publication"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAuthor" />
+        app:layout_constraintTop_toBottomOf="@+id/txtFieldName" />
 
     <TextView
         android:id="@+id/textViewIDNo"
@@ -66,7 +66,7 @@
         app:layout_constraintTop_toTopOf="@+id/textViewID" />
 
     <EditText
-        android:id="@+id/editTextTitle"
+        android:id="@+id/txtFieldTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -81,7 +81,7 @@
         android:autofillHints="" />
 
     <EditText
-        android:id="@+id/editTextAuthor"
+        android:id="@+id/txtFieldName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -96,7 +96,7 @@
         android:autofillHints="" />
 
     <EditText
-        android:id="@+id/editTextYear"
+        android:id="@+id/txtFieldYearPub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -122,7 +122,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnSave"
-        app:layout_constraintTop_toBottomOf="@+id/editTextYear" />
+        app:layout_constraintTop_toBottomOf="@+id/txtFieldYearPub" />
 
     <Button
         android:id="@+id/btnSave"
@@ -136,5 +136,5 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/btnCancel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextYear" />
+        app:layout_constraintTop_toBottomOf="@+id/txtFieldYearPub" />
 </androidx.constraintlayout.widget.ConstraintLayout>

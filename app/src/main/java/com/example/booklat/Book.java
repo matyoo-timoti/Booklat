@@ -2,10 +2,16 @@ package com.example.booklat;
 
 public class Book {
 
-    private final int id;
+    private int id;
     private final String title;
     private final String author;
     private final Integer publishedYear;
+
+    public Book(String title, String author, Integer publishedYear) {
+        this.title = title;
+        this.author = author;
+        this.publishedYear = publishedYear;
+    }
 
     public Book(int id, String title, String author, Integer publishedYear) {
         this.id = id;

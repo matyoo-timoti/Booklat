@@ -46,7 +46,7 @@ public class SqLiteDatabase extends SQLiteOpenHelper {
         onCreate(database);
     }
 
-    ArrayList<Book> ListOfBooks() {
+    ArrayList<Book> listOfBooks() {
         String sqlSelect = "SELECT * FROM " + DATABASE_TABLE;
         SQLiteDatabase database = this.getReadableDatabase();
         ArrayList<Book> storeBooks = new ArrayList<>();

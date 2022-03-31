@@ -9,9 +9,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class UpsertBook extends AppCompatActivity {
-
+    SqLiteDatabase database;
     Button btnSave, btnCancel;
-    EditText edTxtTitle, edTxtAuthor, edTxtYear;
+    EditText titleField, authorField, yearPublishedField;
     String title, author;
     Integer year;
 
@@ -21,44 +21,25 @@ public class UpsertBook extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upsert);
 
-        SqLiteDatabase SQLiteDatabase = new SqLiteDatabase(this);
+        database = new SqLiteDatabase(this);
 
-        edTxtTitle = findViewById(R.id.editTextTitle);
-        edTxtAuthor = findViewById(R.id.editTextAuthor);
-        edTxtYear = findViewById(R.id.editTextYear);
+        titleField = findViewById(R.id.txtFieldTitle);
+        authorField = findViewById(R.id.txtFieldName);
+        yearPublishedField = findViewById(R.id.txtFieldYearPub);
 
-
-        // Save button Listener
 
         btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener(view -> {
-
-            if (isEmpty(edTxtTitle) || isEmpty(edTxtAuthor) || isEmpty(edTxtYear)) {
+            if (isEmpty(titleField) || isEmpty(authorField) || isEmpty(yearPublishedField)) {
                 Toast.makeText(this, "There should be no empty fields.", Toast.LENGTH_LONG).show();
-                return;
             }
 
-            // Open database connection.
-            SQLiteDatabase.open();
-
-            // Add the information from input to the database.
-            long id = SQLiteDatabase.insertBook(title, author, Integer.parseInt(String.valueOf(year)));
-
-
-            // Close database connection.
-            SQLiteDatabase.close();
         });
 
 
-        // Cancel button listener
-
         btnCancel = findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(view -> {
-
-
-            // Destroy activity and go back to previous activity.
-
-            finish();
+            finish(); // Destroy current activity
         });
     }
 
