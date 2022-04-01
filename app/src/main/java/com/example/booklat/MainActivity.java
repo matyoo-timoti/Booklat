@@ -1,5 +1,6 @@
 package com.example.booklat;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -19,6 +20,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private SqLiteDatabase database;
+    ArrayList<Book> allBooks;
+    TextView txtViewEmptyList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,22 +35,24 @@ public class MainActivity extends AppCompatActivity {
         bookListView.setHasFixedSize(true);
 
         database = new SqLiteDatabase(this);
-        ArrayList<Book> allBooks = database.listOfBooks();
-        TextView noShow = findViewById(R.id.textViewNoItem);
+        allBooks = database.listOfBooks();
+        txtViewEmptyList = findViewById(R.id.textViewNoItem);
+
         if (allBooks.size() > 0) {
             bookListView.setVisibility(View.VISIBLE);
             BookAdapter bkAdapter = new BookAdapter(this, allBooks);
             bookListView.setAdapter(bkAdapter);
-            noShow.setVisibility(View.GONE);
+            txtViewEmptyList.setVisibility(View.GONE);
         } else {
             bookListView.setVisibility(View.GONE);
-            noShow.setVisibility(View.VISIBLE);
+            txtViewEmptyList.setVisibility(View.VISIBLE);
         }
 
         FloatingActionButton btnAddNew = findViewById(R.id.fabAddNew);
         btnAddNew.setOnClickListener(view -> addBookDialog());
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void addBookDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View subView = inflater.inflate(R.layout.dialog_add_book_layout, null);
@@ -59,23 +65,19 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Add New Book");
         builder.setView(subView);
 
-        // Dialog positive button
-        // Instantiate positive button
+        // Dialog positive button and instantiate positive button.
         builder.setPositiveButton("ADD BOOK", (dialogInterface, i) -> {
-
             // Do nothing here
         });
 
-
         // Dialog negative button
-
         builder.setNegativeButton("CANCEL", (dialogInterface, i) -> Toast.makeText(MainActivity.this, "Add book cancelled", Toast.LENGTH_SHORT).show());
+
+
         final AlertDialog dialog = builder.create();
         dialog.show();
 
-
-        // Override the button handler as to prevent closing of the dialog if the title field is empty.
-
+        // Override the positive button handler after showing the dialog. This is to prevent termination of the dialog if the title field is empty.
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             String title = titleField.getText().toString();
             String author = authorField.getText().toString();
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 database.addBook(newBook);
                 finish();
                 startActivity(getIntent());
+                overridePendingTransition(0, 0);
                 dialog.dismiss();
             }
         });

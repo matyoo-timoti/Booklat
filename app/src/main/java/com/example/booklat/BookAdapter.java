@@ -11,18 +11,18 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements Filterable {
+public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements Filterable{
     private final Context context;
     private ArrayList<Book> listOfBooks;
     private final ArrayList<Book> mArrayList;
     private final SqLiteDatabase database;
-
 
     BookAdapter(Context context, ArrayList<Book> listOfBooks) {
         this.context = context;
@@ -61,6 +61,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
         };
     }
 
+    @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_item, parent, false);
@@ -74,9 +75,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
         holder.tvAuthor.setText(book.getAuthor());
         holder.tvYear.setText(book.getPublishedYear());
 
-        holder.btnEdit.setOnClickListener(view -> {
-            editBookDialog(book);
-        });
+        holder.btnEdit.setOnClickListener(view -> editBookDialog(book));
 
         // Deletes the entry when delete button is tapped. Then restart the main activity.
 
@@ -96,7 +95,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
         final EditText authorField = subView.findViewById(R.id.authorField);
         final EditText yearPubField = subView.findViewById(R.id.yearPubField);
 
+
         // Retrieve data from book object and set as text on edit text.
+
         if (book != null) {
             titleField.setText(book.getTitle());
             authorField.setText(book.getAuthor());
@@ -123,15 +124,15 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
         // Override the button handler as to prevent closing of the dialog if the title field is empty.
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
-            String title = titleField.getText().toString();
-            String author = authorField.getText().toString();
-            String yearPub = yearPubField.getText().toString();
+            String newTitle = titleField.getText().toString();
+            String newAuthor = authorField.getText().toString();
+            String newYearPub = yearPubField.getText().toString();
 
-            if (TextUtils.isEmpty(title)) {
+            if (TextUtils.isEmpty(newTitle)) {
                 Toast.makeText(context, "Title field cannot be empty.", Toast.LENGTH_LONG).show();
                 titleField.setError("This field cannot be empty.");
             } else {
-                database.updateBook(new Book(Objects.requireNonNull(book).getId(), title, author, yearPub));
+                database.updateBook(new Book(Objects.requireNonNull(book).getId(), newTitle, newAuthor, newYearPub));
                 Toast.makeText(context, "Changes saved", Toast.LENGTH_LONG).show();
                 ((Activity) context).finish();
                 context.startActivity(((Activity) context).getIntent());
@@ -140,7 +141,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
         });
 
     }
-
 
     @Override
     public int getItemCount() {
