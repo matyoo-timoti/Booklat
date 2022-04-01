@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 titleField.setError("This field cannot be empty.");
             } else {
                 Book newBook = new Book(title, author, yearPub);
+                Toast.makeText(this, "New book: " + title + " added", Toast.LENGTH_LONG).show();
                 database.addBook(newBook);
                 finish();
                 startActivity(getIntent());
