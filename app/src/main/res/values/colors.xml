@@ -7,5 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="spanish_viridian">#376B73</color>
+    <color name="spanish_viridian_dark">#376B73</color>
+    <color name="spanish_viridian">#0C7C59</color>
+    <color name="cinnabar">#D64933</color>
+    <color name="cream">#F5F3ED</color>
+    <color name="gold">#D4AF37</color>
 </resources>
