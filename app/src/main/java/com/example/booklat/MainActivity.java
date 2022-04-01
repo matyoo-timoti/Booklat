@@ -50,28 +50,48 @@ public class MainActivity extends AppCompatActivity {
     private void addBookDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View subView = inflater.inflate(R.layout.dialog_add_book_layout, null);
+
         final EditText titleField = subView.findViewById(R.id.titleField);
         final EditText authorField = subView.findViewById(R.id.authorField);
         final EditText yearPubField = subView.findViewById(R.id.yearPubField);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add New Book");
         builder.setView(subView);
-        builder.create();
+
+        // Dialog positive button
+        // Instantiate positive button
         builder.setPositiveButton("ADD BOOK", (dialogInterface, i) -> {
-            if (isEmpty(titleField) || isEmpty(authorField) || isEmpty(yearPubField)) {
-                Toast.makeText(this, "There should be no empty fields.", Toast.LENGTH_LONG).show();
+
+            // Do nothing here
+        });
+
+
+        // Dialog negative button
+
+        builder.setNegativeButton("CANCEL", (dialogInterface, i) -> Toast.makeText(MainActivity.this, "Add book cancelled", Toast.LENGTH_SHORT).show());
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+        // Override the button handler as to prevent closing of the dialog if the title field is empty.
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            String title = titleField.getText().toString();
+            String author = authorField.getText().toString();
+            String yearPub = yearPubField.getText().toString();
+
+            if (TextUtils.isEmpty(title)) {
+                Toast.makeText(this, "Title field cannot be empty.", Toast.LENGTH_LONG).show();
+                titleField.setError("This field cannot be empty.");
             } else {
-                final String title = titleField.getText().toString();
-                final String author = authorField.getText().toString();
-                final int yearPub = Integer.parseInt(yearPubField.getText().toString());
-                Book book = new Book(title, author, yearPub);
-                database.addBook(book);
+                Book newBook = new Book(title, author, yearPub);
+                database.addBook(newBook);
                 finish();
                 startActivity(getIntent());
+                dialog.dismiss();
             }
         });
-        builder.setNegativeButton("CANCEL", (dialogInterface, i) -> Toast.makeText(MainActivity.this, "Add book cancelled", Toast.LENGTH_SHORT).show());
-        builder.show();
     }
 
     @Override
@@ -80,14 +100,6 @@ public class MainActivity extends AppCompatActivity {
         if (database != null) {
             database.close();
         }
-    }
-
-    private boolean isEmpty(EditText edTxt) {
-        if (TextUtils.isEmpty(edTxt.getText())) {
-            edTxt.setError("This field cannot be empty.");
-            return true;
-        }
-        return false;
     }
 
 }

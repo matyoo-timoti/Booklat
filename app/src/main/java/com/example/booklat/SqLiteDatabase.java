@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class SqLiteDatabase extends SQLiteOpenHelper {
     static final int DATABASE_VERSION = 1;
-    static final String DATABASE_NAME = "MyDatabase";
+    static final String DATABASE_NAME = "BookDB";
     static final String DATABASE_TABLE = "Books";
     static final String KEY_ID = "_id";
     static final String KEY_TITLE = "title";
@@ -26,12 +26,12 @@ public class SqLiteDatabase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
         try {
-            String CREATE_BOOKS_TABLE =
-                    "CREATE TABLE " + DATABASE_TABLE + "(" +
-                            KEY_ID + " INTEGER PRIMARY KEY," +
-                            KEY_TITLE + "TEXT" +
-                            KEY_AUTHOR + "TEXT" +
-                            KEY_YEAR_PUBLISHED + "INTEGER" + ")";
+            String CREATE_BOOKS_TABLE = "CREATE TABLE "
+                    + DATABASE_TABLE + "(" +
+                    KEY_ID + " INTEGER PRIMARY KEY," +
+                    KEY_TITLE + " TEXT," +
+                    KEY_AUTHOR + " TEXT," +
+                    KEY_YEAR_PUBLISHED + " INTEGER" + ")";
             database.execSQL(CREATE_BOOKS_TABLE);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,7 +56,7 @@ public class SqLiteDatabase extends SQLiteOpenHelper {
                 int ID = Integer.parseInt(cursor.getString(0));
                 String title = cursor.getString(1);
                 String author = cursor.getString(2);
-                int yearPublished = Integer.parseInt(cursor.getString(3));
+                String yearPublished = cursor.getString(3);
                 storeBooks.add(new Book(ID, title, author, yearPublished));
             } while (cursor.moveToNext());
         }
