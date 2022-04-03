@@ -1,7 +1,9 @@
 package com.example.booklat;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        overridePendingTransition(0, 0);
 
         RecyclerView bookListView = findViewById(R.id.booksListView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -48,9 +51,14 @@ public class MainActivity extends AppCompatActivity {
             txtViewEmptyList.setVisibility(View.VISIBLE);
         }
 
+
+        // Floating button handler
+
         FloatingActionButton btnAddNew = findViewById(R.id.fabAddNew);
         btnAddNew.setOnClickListener(view -> addBookDialog());
     }
+
+    // Add new book entry dialog
 
     @SuppressLint("NotifyDataSetChanged")
     private void addBookDialog() {
@@ -65,12 +73,17 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Add New Book");
         builder.setView(subView);
 
+
         // Dialog positive button and instantiate positive button.
+
         builder.setPositiveButton("ADD BOOK", (dialogInterface, i) -> {
+
             // Do nothing here
         });
 
+
         // Dialog negative button
+
         builder.setNegativeButton("CANCEL", (dialogInterface, i) -> Toast.makeText(MainActivity.this, "Add book cancelled", Toast.LENGTH_SHORT).show());
 
 
@@ -78,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
 
         // Override the positive button handler after showing the dialog. This is to prevent termination of the dialog if the title field is empty.
+
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             String title = titleField.getText().toString();
             String author = authorField.getText().toString();
@@ -90,17 +104,20 @@ public class MainActivity extends AppCompatActivity {
                 Book newBook = new Book(title, author, yearPub);
                 Toast.makeText(this, "New book: " + title + " added", Toast.LENGTH_LONG).show();
                 database.addBook(newBook);
+                dialog.dismiss();
                 finish();
                 startActivity(getIntent());
-                overridePendingTransition(0, 0);
-                dialog.dismiss();
             }
         });
     }
 
+
+    // Close the database when activity is destroyed.
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        overridePendingTransition(0, 0);
         if (database != null) {
             database.close();
         }

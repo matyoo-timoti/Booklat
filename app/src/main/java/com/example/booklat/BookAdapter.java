@@ -1,5 +1,6 @@
 package com.example.booklat;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
@@ -31,6 +32,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
         database = new SqLiteDatabase(context);
     }
 
+    // Instead of reloading everything from zero whenever a new item is added, we use
+    // filter to check each char sequence of the title if and if the title doesn't exist
+    // yet on the the duplicate arraylist then it'll be added to the recycler view.
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -53,6 +57,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
                 return filterResults;
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 listOfBooks = (ArrayList<Book>) filterResults.values;
@@ -81,8 +86,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
 
         holder.btnDelete.setOnClickListener(view -> {
             database.deleteBook(book.getId());
-            Toast.makeText(context, "Book: " + book.getTitle() + "has been deleted", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Book: " + book.getTitle() + " has been deleted", Toast.LENGTH_LONG).show();
+            ((Activity) context).getWindow().setWindowAnimations(0);
             ((Activity) context).finish();
+            ((Activity) context).getWindow().setWindowAnimations(0);
             context.startActivity(((Activity) context).getIntent());
         });
     }
@@ -108,18 +115,16 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
         builder.setTitle("Edit Book");
         builder.setView(subView);
 
-        // Dialog positive button
-        // Instantiate positive button
+        // Instantiate positive button (will be overridden)
         builder.setPositiveButton("SAVE CHANGES", (dialogInterface, i) -> {
             // Do nothing here
         });
 
         // Dialog negative button
 
-        builder.setNegativeButton("CANCEL", (dialogInterface, i) -> Toast.makeText(context, "Add book cancelled", Toast.LENGTH_SHORT).show());
+        builder.setNegativeButton("CANCEL", (dialogInterface, i) -> Toast.makeText(context, "Edit book cancelled", Toast.LENGTH_SHORT).show());
         final AlertDialog dialog = builder.create();
         dialog.show();
-
 
         // Override the button handler as to prevent closing of the dialog if the title field is empty.
 
@@ -134,9 +139,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
             } else {
                 database.updateBook(new Book(Objects.requireNonNull(book).getId(), newTitle, newAuthor, newYearPub));
                 Toast.makeText(context, "Changes saved", Toast.LENGTH_LONG).show();
-                ((Activity) context).finish();
-                context.startActivity(((Activity) context).getIntent());
                 dialog.dismiss();
+                ((Activity) context).getWindow().setWindowAnimations(0);
+                ((Activity) context).finish();
+                ((Activity) context).getWindow().setWindowAnimations(0);
+                context.startActivity(((Activity) context).getIntent());
             }
         });
 
