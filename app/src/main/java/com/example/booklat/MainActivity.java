@@ -4,11 +4,14 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         // Continue drawing the main activity views.
 
@@ -54,6 +58,25 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton btnAddNew = findViewById(R.id.fabAddNew);
         btnAddNew.setOnClickListener(view -> addBookDialog());
+    }
+
+
+    // Menu
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    // Menu buttons
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        database.deleteAll();
+        Toast.makeText(MainActivity.this, "All books have been deleted", Toast.LENGTH_LONG).show();
+        finish();
+        startActivity(getIntent());
+        return true;
     }
 
 
@@ -109,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 
     // Close the database when activity is destroyed.

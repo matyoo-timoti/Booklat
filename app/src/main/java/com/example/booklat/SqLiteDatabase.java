@@ -86,4 +86,10 @@ public class SqLiteDatabase extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         database.delete(DATABASE_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(ID)});
     }
+
+    void deleteAll() {
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.delete(DATABASE_TABLE, null, null);
+        database.execSQL("VACUUM");
+    }
 }

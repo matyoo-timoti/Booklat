@@ -1,11 +1,11 @@
 package com.example.booklat;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
@@ -30,7 +30,5 @@ public class SplashScreenActivity extends AppCompatActivity {
             startActivity(mainActivity);
             finish();
         }, SPLASH_TIME_OUT);
-
-
     }
 }
