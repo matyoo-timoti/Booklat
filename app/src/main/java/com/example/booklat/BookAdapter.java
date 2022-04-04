@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements Filterable{
+public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements Filterable {
     private final Context context;
     private ArrayList<Book> listOfBooks;
     private final ArrayList<Book> mArrayList;
@@ -35,6 +35,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
     // Instead of reloading everything from zero whenever a new item is added, we use
     // filter to check each char sequence of the title if and if the title doesn't exist
     // yet on the the duplicate arraylist then it'll be added to the recycler view.
+
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -86,10 +87,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
 
         holder.btnDelete.setOnClickListener(view -> {
             database.deleteBook(book.getId());
-            Toast.makeText(context, "Book: " + book.getTitle() + " has been deleted", Toast.LENGTH_LONG).show();
-            ((Activity) context).getWindow().setWindowAnimations(0);
+            Toast.makeText(context, book.getTitle() + " has been deleted", Toast.LENGTH_LONG).show();
             ((Activity) context).finish();
-            ((Activity) context).getWindow().setWindowAnimations(0);
             context.startActivity(((Activity) context).getIntent());
         });
     }
@@ -140,9 +139,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
                 database.updateBook(new Book(Objects.requireNonNull(book).getId(), newTitle, newAuthor, newYearPub));
                 Toast.makeText(context, "Changes saved", Toast.LENGTH_LONG).show();
                 dialog.dismiss();
-                ((Activity) context).getWindow().setWindowAnimations(0);
                 ((Activity) context).finish();
-                ((Activity) context).getWindow().setWindowAnimations(0);
                 context.startActivity(((Activity) context).getIntent());
             }
         });

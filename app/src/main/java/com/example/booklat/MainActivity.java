@@ -1,18 +1,21 @@
 package com.example.booklat;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,12 +28,12 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Book> allBooks;
     TextView txtViewEmptyList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        overridePendingTransition(0, 0);
+
+        // Continue drawing the main activity views.
 
         RecyclerView bookListView = findViewById(R.id.booksListView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton btnAddNew = findViewById(R.id.fabAddNew);
         btnAddNew.setOnClickListener(view -> addBookDialog());
     }
+
 
     // Add new book entry dialog
 
@@ -117,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        overridePendingTransition(0, 0);
         if (database != null) {
             database.close();
         }

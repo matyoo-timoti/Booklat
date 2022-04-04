@@ -29,4 +29,7 @@
     <string name="enter_title">Enter Title</string>
     <string name="enter_name">Enter Name</string>
     <string name="enter_year">Enter Year</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
