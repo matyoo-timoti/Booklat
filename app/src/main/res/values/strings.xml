@@ -25,7 +25,7 @@
     <string name="edit_button">Edit Button</string>
     <string name="delete_book">Delete Book</string>
     <string name="edit_book">Edit Book</string>
-    <string name="no_show_string">There are no books to show. Press the + button to add a book.</string>
+    <string name="no_show_string">There are no books to show. Press the Add New Book button to add a book.</string>
     <string name="enter_title">Enter Title</string>
     <string name="enter_name">Enter Name</string>
     <string name="enter_year">Enter Year</string>
@@ -33,4 +33,5 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="delete_all">Delete All</string>
+    <string name="floating_button_text">Add New Book</string>
 </resources>

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Floating button handler
 
-        FloatingActionButton btnAddNew = findViewById(R.id.fabAddNew);
+        ExtendedFloatingActionButton btnAddNew = findViewById(R.id.fabAddNew);
         btnAddNew.setOnClickListener(view -> addBookDialog());
     }
 

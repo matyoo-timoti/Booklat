@@ -13,10 +13,12 @@
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/black</item>
 
         <!-- Customize your theme here. -->
+
         <!-- Animations for a non-full-screen window or activity. -->
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowEnterAnimation">@null</item>
         <item name="android:windowExitAnimation">@null</item>
+
     </style>
 
     <style name="Theme.Booklat.NoActionBar">
@@ -37,6 +39,37 @@
     <style name="ThemeOverlay.Booklat.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+
+
+    <!--CUSTOM FLOATING ACTION BUTTON STYLE-->
+
+    <!-- Pointed Top -->
+    <style name="FabShape1" parent="">
+        <item name="cornerSize">50%</item>
+        <item name="cornerFamilyTopLeft">cut</item>
+        <item name="cornerFamilyTopRight">cut</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+    </style>
+
+    <!-- Square with rounded corners -->
+    <style name="FabShape2" parent="">
+        <item name="cornerSize">30%</item>
+    </style>
+
+    <!-- Diamond -->
+    <style name="FabShape3" parent="">
+        <item name="cornerSize">50%</item>
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <!-- Fan -->
+    <style name="FabShape4" parent="">
+        <item name="cornerSize">0dp</item>
+        <item name="cornerSizeTopLeft">80%</item>
+        <item name="cornerFamily">cut</item>
+        <item name="cornerFamilyTopLeft">rounded</item>
     </style>
 
 </resources>
