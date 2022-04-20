@@ -26,7 +26,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         // Add delay before starting the main activity
 
         new Handler().postDelayed((Runnable) () -> {
-            Intent mainActivity = new Intent(this, MainActivity.class);
+            Intent mainActivity = new Intent(this, HomeActivity.class);
             startActivity(mainActivity);
             finish();
         }, SPLASH_TIME_OUT);

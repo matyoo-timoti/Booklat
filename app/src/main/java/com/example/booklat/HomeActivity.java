@@ -18,11 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
     private SqLiteDatabase database;
     ArrayList<Book> allBooks;
     TextView txtViewEmptyList;
@@ -30,11 +29,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_home);
 
         // Continue drawing the main activity views.
-
         RecyclerView bookListView = findViewById(R.id.booksListView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         bookListView.setLayoutManager(linearLayoutManager);
@@ -45,25 +42,21 @@ public class MainActivity extends AppCompatActivity {
         txtViewEmptyList = findViewById(R.id.textViewNoItem);
 
         if (allBooks.size() > 0) {
+            txtViewEmptyList.setVisibility(View.GONE);
             bookListView.setVisibility(View.VISIBLE);
             BookAdapter bkAdapter = new BookAdapter(this, allBooks);
             bookListView.setAdapter(bkAdapter);
-            txtViewEmptyList.setVisibility(View.GONE);
         } else {
-            bookListView.setVisibility(View.GONE);
             txtViewEmptyList.setVisibility(View.VISIBLE);
+            bookListView.setVisibility(View.GONE);
         }
 
-
-        // Floating button handler
-
+        // Floating button on click
         ExtendedFloatingActionButton btnAddNew = findViewById(R.id.fabAddNew);
         btnAddNew.setOnClickListener(view -> addBookDialog());
     }
 
-
     // Menu
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -74,15 +67,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         database.deleteAll();
-        Toast.makeText(MainActivity.this, "All books have been deleted", Toast.LENGTH_LONG).show();
+        Toast.makeText(HomeActivity.this, "All books have been deleted", Toast.LENGTH_LONG).show();
         finish();
         startActivity(getIntent());
         return true;
     }
 
-
     // Add new book entry dialog
-
     @SuppressLint("NotifyDataSetChanged")
     private void addBookDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -96,25 +87,19 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Add New Book");
         builder.setView(subView);
 
-
         // Dialog positive button and instantiate positive button.
-
         builder.setPositiveButton("ADD BOOK", (dialogInterface, i) -> {
-
             // Do nothing here
         });
 
 
         // Dialog negative button
-
-        builder.setNegativeButton("CANCEL", (dialogInterface, i) -> Toast.makeText(MainActivity.this, "Add book cancelled", Toast.LENGTH_SHORT).show());
-
+        builder.setNegativeButton("CANCEL", (dialogInterface, i) -> Toast.makeText(HomeActivity.this, "Add book cancelled", Toast.LENGTH_SHORT).show());
 
         final AlertDialog dialog = builder.create();
         dialog.show();
 
         // Override the positive button handler after showing the dialog. This is to prevent termination of the dialog if the title field is empty.
-
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             String title = titleField.getText().toString();
             String author = authorField.getText().toString();
@@ -134,11 +119,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
     // Close the database when activity is destroyed.
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
