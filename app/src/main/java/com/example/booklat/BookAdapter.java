@@ -69,6 +69,19 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
         };
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateAdapter(ArrayList<Book> data) {
+        //if arraylist is empty, restart Home Activity
+        if (!(data.size() > 0)) {
+            ((Activity) context).finish();
+            context.startActivity(((Activity) context).getIntent());
+        } else {
+            listOfBooks.clear();
+            listOfBooks.addAll(data);
+            notifyDataSetChanged();
+        }
+    }
+
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -149,9 +162,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
             } else {
                 database.updateBook(new Book(Objects.requireNonNull(book).getId(), newTitle, newAuthor, newYearPub));
                 Toast.makeText(context, "Changes saved", Toast.LENGTH_LONG).show();
+                updateAdapter(database.listOfBooks());
                 dialog.dismiss();
-                ((Activity) context).finish();
-                context.startActivity(((Activity) context).getIntent());
             }
         });
 
@@ -165,10 +177,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
                 .setNegativeButton("No", null);
         dialog.setPositiveButton("Yes", (dialogInterface, i) -> {
             database.deleteBook(book.getId());
+            updateAdapter(database.listOfBooks());
             Toast.makeText(context, book.getTitle() + " has been deleted", Toast.LENGTH_LONG).show();
-
-            ((Activity) context).finish();
-            context.startActivity(((Activity) context).getIntent());
         });
         dialog.show();
     }

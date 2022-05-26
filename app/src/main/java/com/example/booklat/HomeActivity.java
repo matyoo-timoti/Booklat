@@ -1,7 +1,5 @@
 package com.example.booklat;
 
-import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -24,8 +22,7 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
     private SqLiteDatabase database;
-    ArrayList<Book> allBooks;
-    TextView txtViewEmptyList;
+    private RecyclerView bookListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +30,24 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         // Continue drawing the main activity views.
-        RecyclerView bookListView = findViewById(R.id.booksListView);
+        bookListView = findViewById(R.id.booksListView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         bookListView.setLayoutManager(linearLayoutManager);
         bookListView.setHasFixedSize(true);
 
+        //Populate the recycler view
+        refresh();
+
+        // Floating button
+        ExtendedFloatingActionButton btnAddNew = findViewById(R.id.fabAddNew);
+        btnAddNew.setOnClickListener(view -> addBookDialog());
+    }
+
+    //refresh recycler view
+    public void refresh() {
         database = new SqLiteDatabase(this);
-        allBooks = database.listOfBooks();
-        txtViewEmptyList = findViewById(R.id.textViewNoItem);
+        ArrayList<Book> allBooks = database.listOfBooks();
+        TextView txtViewEmptyList = findViewById(R.id.textViewNoItem);
 
         if (allBooks.size() > 0) {
             txtViewEmptyList.setVisibility(View.GONE);
@@ -51,10 +58,6 @@ public class HomeActivity extends AppCompatActivity {
             txtViewEmptyList.setVisibility(View.VISIBLE);
             bookListView.setVisibility(View.GONE);
         }
-
-        // Floating button on click
-        ExtendedFloatingActionButton btnAddNew = findViewById(R.id.fabAddNew);
-        btnAddNew.setOnClickListener(view -> addBookDialog());
     }
 
     // Menu
@@ -73,16 +76,14 @@ public class HomeActivity extends AppCompatActivity {
                 .setNegativeButton("No", null);
         dialog.setPositiveButton("yes", (dialogInterface, i) -> {
             database.deleteAll();
-            Toast.makeText(HomeActivity.this, "All books have been deleted", Toast.LENGTH_LONG).show();
-            finish();
-            startActivity(getIntent());
+            Toast.makeText(HomeActivity.this, "All records have been deleted", Toast.LENGTH_LONG).show();
+            refresh();
         });
         dialog.show();
         return true;
     }
 
     // Add new book entry dialog
-    @SuppressLint("NotifyDataSetChanged")
     private void addBookDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View subView = inflater.inflate(R.layout.dialog_add_book_layout, null);
@@ -119,9 +120,8 @@ public class HomeActivity extends AppCompatActivity {
                 Book newBook = new Book(title, author, yearPub);
                 Toast.makeText(this, String.format("New record: %s added", title), Toast.LENGTH_LONG).show();
                 database.addBook(newBook);
+                refresh();
                 dialog.dismiss();
-                finish();
-                startActivity(getIntent());
             }
         });
     }
