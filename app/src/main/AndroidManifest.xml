@@ -19,9 +19,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UpsertBook"
-            android:exported="false" />
-        <activity
             android:name=".HomeActivity"
             android:exported="true">
         </activity>
