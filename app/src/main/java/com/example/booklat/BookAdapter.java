@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -70,10 +72,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_item_v2, parent, false);
         return new BookViewHolder(view);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onBindViewHolder(BookViewHolder holder, int position) {
         final Book book = listOfBooks.get(position);
@@ -81,16 +84,27 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
         holder.tvAuthor.setText(book.getAuthor());
         holder.tvYear.setText(book.getPublishedYear());
 
-        holder.btnEdit.setOnClickListener(view -> editBookDialog(book));
+        //Pop-up menu handler
+        PopupMenu popupMenu = new PopupMenu(context.getApplicationContext(), holder.btnMenu);
+        Menu menu = popupMenu.getMenu();
+        popupMenu.getMenuInflater().inflate(R.menu.menu_three_dot, menu);
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
 
-        // Deletes the entry when delete button is tapped. Then restart the main activity.
+                case R.id.option_edit:
+                    editBookDialog(book);
+                    Toast.makeText(context, String.format("%s%n%s%n%s", book.getTitle(), book.getAuthor(), book.getPublishedYear()), Toast.LENGTH_LONG).show();
+                    return true;
 
-        holder.btnDelete.setOnClickListener(view -> {
-            database.deleteBook(book.getId());
-            Toast.makeText(context, book.getTitle() + " has been deleted", Toast.LENGTH_LONG).show();
-            ((Activity) context).finish();
-            context.startActivity(((Activity) context).getIntent());
+                case R.id.option_delete:
+                    deleteBookDialog(book);
+                    return true;
+            }
+            return false;
         });
+
+        //Show pop-up menu when menu button is clicked
+        holder.btnMenu.setOnClickListener(view -> popupMenu.show());
     }
 
     private void editBookDialog(Book book) {
@@ -103,7 +117,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
 
 
         // Retrieve data from book object and set as text on edit text.
-
         if (book != null) {
             titleField.setText(book.getTitle());
             authorField.setText(book.getAuthor());
@@ -120,13 +133,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
         });
 
         // Dialog negative button
-
         builder.setNegativeButton("CANCEL", (dialogInterface, i) -> Toast.makeText(context, "Edit book cancelled", Toast.LENGTH_SHORT).show());
         final AlertDialog dialog = builder.create();
         dialog.show();
 
         // Override the button handler as to prevent closing of the dialog if the title field is empty.
-
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             String newTitle = titleField.getText().toString();
             String newAuthor = authorField.getText().toString();
@@ -144,6 +155,22 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
             }
         });
 
+    }
+
+    private void deleteBookDialog(Book book) {
+        //Simple alert dialog to confirm deletion
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        dialog.setMessage(String.format("Are you sure you want to delete `%s`? This record cannot be retrieved once deleted.", book.getTitle()))
+                .setTitle("Delete Confirmation")
+                .setNegativeButton("No", null);
+        dialog.setPositiveButton("Yes", (dialogInterface, i) -> {
+            database.deleteBook(book.getId());
+            Toast.makeText(context, book.getTitle() + " has been deleted", Toast.LENGTH_LONG).show();
+
+            ((Activity) context).finish();
+            context.startActivity(((Activity) context).getIntent());
+        });
+        dialog.show();
     }
 
     @Override

@@ -6,4 +6,8 @@
         android:id="@+id/delAll"
         android:title="@string/delete_all"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/Settings"
+        android:title="@string/settings"
+        app:showAsAction="never"/>
 </menu>

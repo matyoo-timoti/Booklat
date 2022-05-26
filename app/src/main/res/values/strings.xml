@@ -1,37 +1,23 @@
 <resources>
     <string name="app_name">Booklat</string>
     <string name="book_title">Book Title</string>
-    <string name="id">ID:</string>
     <string name="author_name">Author Name</string>
     <string name="year_of_publication">Year of Publication</string>
-    <string name="_0">0</string>
-    <string name="name">Name</string>
     <string name="title">Title</string>
     <string name="year">Year</string>
-    <string name="cancel">Cancel</string>
-    <string name="save">SAVE</string>
     <string name="add_new_book">Add New Book</string>
     <string name="author">Author</string>
     <string name="book_icon">Book Icon</string>
-    <string name="title_activity_main2">MainActivity2</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="edit_button">Edit Button</string>
-    <string name="delete_book">Delete Book</string>
-    <string name="edit_book">Edit Book</string>
     <string name="no_show_string">There are no books to show. Press the Add New Book button to add a book.</string>
     <string name="enter_title">Enter Title</string>
     <string name="enter_name">Enter Name</string>
     <string name="enter_year">Enter Year</string>
-    <string name="title_activity_splash_screen">SplashScreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="delete_all">Delete All</string>
+    <string name="delete_all">Delete all records</string>
     <string name="floating_button_text">Add New Book</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="more">more</string>
+    <string name="settings">Settings</string>
 </resources>

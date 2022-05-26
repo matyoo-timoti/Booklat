@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="5dp"
-    app:cardCornerRadius="15dp"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="10dp"
     android:layout_margin="4dp">
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,9 +16,7 @@
         android:id="@+id/textViewEntryTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_weight="1"
         android:ellipsize="end"
         android:fontFamily="@font/inter_semibold"
@@ -26,42 +24,39 @@
         android:text="@string/title"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewEntryAuthor"
-        app:layout_constraintEnd_toStartOf="@+id/btnEdit"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/textViewEntryAuthor"
+        app:layout_constraintStart_toStartOf="@+id/textViewEntryAuthor"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewEntryYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="1dp"
         android:layout_weight="1"
+        android:ellipsize="end"
         android:fontFamily="@font/inter_medium"
         android:text="@string/year"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
-        app:layout_constraintEnd_toStartOf="@+id/btnEdit"
+        app:layout_constraintEnd_toEndOf="@+id/textViewEntryAuthor"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/textViewEntryAuthor"
         app:layout_constraintTop_toBottomOf="@+id/textViewEntryAuthor" />
 
     <TextView
         android:id="@+id/textViewEntryAuthor"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="16dp"
         android:layout_weight="1"
         android:ellipsize="end"
         android:fontFamily="@font/inter_medium"
         android:maxLines="1"
+        android:singleLine="true"
         android:text="@string/author"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewEntryYear"
-        app:layout_constraintEnd_toStartOf="@+id/btnEdit"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/btnMenu"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/textViewEntryTitle" />
 
@@ -86,49 +81,26 @@
         app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_baseline_book_24"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_book"
         tools:ignore="ImageContrastCheck" />
 
     <ImageButton
-        android:id="@+id/btnEdit"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/round_img_btn"
-        android:backgroundTint="@color/spanish_viridian"
-        android:contentDescription="@string/edit_book"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/divider3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_edit" />
-
-    <ImageButton
-        android:id="@+id/btnDelete"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="24dp"
+        android:id="@+id/btnMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/round_img_btn"
-        android:backgroundTint="@color/cinnabar"
-        android:contentDescription="@string/delete_book"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/more"
+        android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_delete" />
-
-    <View
-        android:id="@+id/divider3"
-        android:layout_width="1dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="10dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnDelete"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_more_hor"
+        app:tint="@android:color/darker_gray" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -1,6 +1,7 @@
 package com.example.booklat;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -66,10 +67,17 @@ public class HomeActivity extends AppCompatActivity {
     // Menu buttons
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        database.deleteAll();
-        Toast.makeText(HomeActivity.this, "All books have been deleted", Toast.LENGTH_LONG).show();
-        finish();
-        startActivity(getIntent());
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setMessage("Are you sure you want to delete all records? Records cannot be retrieved once deleted.")
+                .setTitle("Delete Confirmation")
+                .setNegativeButton("No", null);
+        dialog.setPositiveButton("yes", (dialogInterface, i) -> {
+            database.deleteAll();
+            Toast.makeText(HomeActivity.this, "All books have been deleted", Toast.LENGTH_LONG).show();
+            finish();
+            startActivity(getIntent());
+        });
+        dialog.show();
         return true;
     }
 
@@ -92,7 +100,6 @@ public class HomeActivity extends AppCompatActivity {
             // Do nothing here
         });
 
-
         // Dialog negative button
         builder.setNegativeButton("CANCEL", (dialogInterface, i) -> Toast.makeText(HomeActivity.this, "Add book cancelled", Toast.LENGTH_SHORT).show());
 
@@ -110,7 +117,7 @@ public class HomeActivity extends AppCompatActivity {
                 titleField.setError("This field cannot be empty.");
             } else {
                 Book newBook = new Book(title, author, yearPub);
-                Toast.makeText(this, "New book: " + title + " added", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, String.format("New record: %s added", title), Toast.LENGTH_LONG).show();
                 database.addBook(newBook);
                 dialog.dismiss();
                 finish();

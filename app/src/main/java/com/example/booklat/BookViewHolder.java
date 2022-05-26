@@ -8,14 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class BookViewHolder extends RecyclerView.ViewHolder {
     TextView tvTitle, tvAuthor, tvYear;
-    ImageButton btnEdit, btnDelete;
+    ImageButton btnMenu;
 
     public BookViewHolder(View itemView) {
         super(itemView);
         tvTitle = itemView.findViewById(R.id.textViewEntryTitle);
         tvAuthor = itemView.findViewById(R.id.textViewEntryAuthor);
         tvYear = itemView.findViewById(R.id.textViewEntryYear);
-        btnEdit = itemView.findViewById(R.id.btnEdit);
-        btnDelete = itemView.findViewById(R.id.btnDelete);
+        btnMenu = itemView.findViewById(R.id.btnMenu);
     }
 }
