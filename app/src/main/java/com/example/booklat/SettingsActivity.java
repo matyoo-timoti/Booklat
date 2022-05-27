@@ -1,12 +1,12 @@
 package com.example.booklat;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -27,8 +27,9 @@ public class SettingsActivity extends PreferenceActivity {
 
             if (key.equals(PREF_THEME)) {
                 Preference themePreference = findPreference(key);
-                String value = sharedPreferences.getString(key, "System");
-                themePreference.setSummary(String.format("Current Theme: %s", value));
+                String mode = sharedPreferences.getString(key, "System");
+                themePreference.setSummary(String.format("Current Theme: %s", mode));
+                HomeActivity.changeTheme(mode);
             }
         };
     }
@@ -39,8 +40,9 @@ public class SettingsActivity extends PreferenceActivity {
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(preferenceChangeListener);
 
         Preference themePreference = findPreference(PREF_THEME);
-        String b = getPreferenceScreen().getSharedPreferences().getString(PREF_THEME, "System");
-        themePreference.setSummary(String.format("Current Theme: %s", b));
+        String mode = getPreferenceScreen().getSharedPreferences().getString(PREF_THEME, "System");
+        themePreference.setSummary(String.format("Current Theme: %s", mode));
+
 
         Preference sortPreference = findPreference(PREF_DEFAULT_SORT_ORDER);
         String a = getPreferenceScreen().getSharedPreferences().getString(PREF_DEFAULT_SORT_ORDER, "Title ASC");

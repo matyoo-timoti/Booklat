@@ -3,6 +3,7 @@ package com.example.booklat;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -117,6 +118,41 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
 
         //Show pop-up menu when menu button is clicked
         holder.btnMenu.setOnClickListener(view -> popupMenu.show());
+
+        holder.bookIcon.setOnClickListener(view -> {
+            showDetails(book);
+        });
+    }
+
+    private void showDetails(Book book) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View subView = inflater.inflate(R.layout.dialog_add_book_layout, null);
+
+        final EditText titleField = subView.findViewById(R.id.titleField);
+        final EditText authorField = subView.findViewById(R.id.authorField);
+        final EditText yearPubField = subView.findViewById(R.id.yearPubField);
+
+        // Disable editing on edit text
+        titleField.setInputType(InputType.TYPE_NULL);
+        authorField.setInputType(InputType.TYPE_NULL);
+        yearPubField.setInputType(InputType.TYPE_NULL);
+
+        // Retrieve data from book object and set as text on edit text.
+        if (book != null) {
+            titleField.setText(book.getTitle());
+            authorField.setText(book.getAuthor());
+            yearPubField.setText(book.getPublishedYear());
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("View Book Details");
+        builder.setView(subView);
+
+        builder.setPositiveButton("Ok", (dialogInterface, i) -> {
+            // Do nothing here
+        });
+
+        builder.show();
     }
 
     private void editBookDialog(Book book) {

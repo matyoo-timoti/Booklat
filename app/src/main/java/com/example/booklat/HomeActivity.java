@@ -2,7 +2,9 @@ package com.example.booklat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,12 +29,20 @@ public class HomeActivity extends AppCompatActivity {
     private SqLiteDatabase database;
     private RecyclerView bookListView;
     private String[] sortOrder;
+    String mode;
+    String sort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        mode = prefs.getString("pref_theme", "System Default");
+        sort = prefs.getString("pref_default_sort_order", "Title ASC");
+        changeTheme(mode);
+        defaultSort(sort);
 
         // Continue drawing the main activity views.
         bookListView = findViewById(R.id.booksListView);
@@ -50,6 +61,20 @@ public class HomeActivity extends AppCompatActivity {
         btnAddNew.setOnClickListener(view -> addBookDialog());
     }
 
+    public static void changeTheme(String mode) {
+        // Set theme based on preferences
+        switch (mode) {
+            case "Dark":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case "Light":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            default:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
+    }
+
     //refresh recycler view
     public void refresh(String[] so) {
         database = new SqLiteDatabase(this);
@@ -61,7 +86,6 @@ public class HomeActivity extends AppCompatActivity {
             bookListView.setVisibility(View.VISIBLE);
             BookAdapter bkAdapter = new BookAdapter(this, allBooks);
             bookListView.setAdapter(bkAdapter);
-            Toast.makeText(this, String.format("Sort by: %s %s", so[0], so[1]), Toast.LENGTH_SHORT).show();
 
         } else {
             txtViewEmptyList.setVisibility(View.VISIBLE);
@@ -124,26 +148,60 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
+    public void defaultSort(String sort) {
+        switch (sort) {
+            case "Title Z-A":
+                sortOrder = new String[]{SqLiteDatabase.COLUMN_TITLE, SqLiteDatabase.ORDER_DESCENDING};
+                break;
+
+            case "Author A-Z":
+                sortOrder = new String[]{SqLiteDatabase.COLUMN_AUTHOR, SqLiteDatabase.ORDER_ASCENDING};
+                break;
+
+            case "Author Z-A":
+                sortOrder = new String[]{SqLiteDatabase.COLUMN_AUTHOR, SqLiteDatabase.ORDER_DESCENDING};
+                break;
+
+            case "Year Oldest":
+                sortOrder = new String[]{SqLiteDatabase.COLUMN_YEAR_PUBLISHED, SqLiteDatabase.ORDER_ASCENDING};
+                break;
+
+            case "Year Newest":
+                sortOrder = new String[]{SqLiteDatabase.COLUMN_YEAR_PUBLISHED, SqLiteDatabase.ORDER_DESCENDING};
+                break;
+
+            case "Title A-Z":
+            default:
+                sortOrder = new String[]{SqLiteDatabase.COLUMN_TITLE, SqLiteDatabase.ORDER_ASCENDING};
+        }
+    }
+
     private void deleteAll() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setMessage("Are you sure you want to delete all records? Records cannot be retrieved once deleted.")
-                .setTitle("Delete Confirmation")
-                .setNegativeButton("No", null);
-        dialog.setPositiveButton("yes", (dialogInterface, i) -> {
-            database = new SqLiteDatabase(this);
-            ArrayList<Book> allBooks = database.listOfBooks(sortOrder[0], sortOrder[1]);
-            if (allBooks.size() > 0) {
-                database.deleteAll();
-                Toast.makeText(HomeActivity.this, "All records have been deleted", Toast.LENGTH_LONG).show();
-                refresh(sortOrder);
-            }
+        database = new SqLiteDatabase(this);
+        ArrayList<Book> allBooks = database.listOfBooks(sortOrder[0], sortOrder[1]);
+
+        if (!(allBooks.size() > 0)) {
             AlertDialog.Builder dialog1 = new AlertDialog.Builder(this)
                     .setTitle("ERROR")
                     .setMessage("There are no existing records. It may have already been deleted. Please insert a record/records to be able to use this operation.")
                     .setPositiveButton("Ok", null);
             dialog1.show();
-        });
-        dialog.show();
+
+        } else {
+
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage("Are you sure you want to delete all records? Records cannot be retrieved once deleted.")
+                    .setTitle("Delete Confirmation")
+                    .setNegativeButton("No", null);
+
+            dialog.setPositiveButton("yes", (dialogInterface, i) -> {
+                Toast.makeText(HomeActivity.this, "All records have been deleted", Toast.LENGTH_LONG).show();
+                database.deleteAll();
+                refresh(sortOrder);
+
+            });
+            dialog.show();
+        }
     }
 
     // Add new book entry dialog

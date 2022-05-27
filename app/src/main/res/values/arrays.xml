@@ -21,12 +21,12 @@
     <string-array name="theme_option">
         <item name="L">Light</item>
         <item name="D">Dark</item>
-        <item name="S">System</item>
+        <item name="S">System Default</item>
     </string-array>
 
     <string-array name="theme_option_values">
         <item name="L">Light</item>
         <item name="D">Dark</item>
-        <item name="S">System</item>
+        <item name="S">System Default</item>
     </string-array>
 </resources>

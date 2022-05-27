@@ -8,14 +8,14 @@
             android:summary="Choose your app theme"
             android:entries="@array/theme_option"
             android:entryValues="@array/theme_option_values"
-            android:defaultValue="System"
+            android:defaultValue="System Default"
             />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Sorting Records">
         <ListPreference
-            android:title="Default Sort Order"
             android:key="pref_default_sort_order"
+            android:title="Default Sort Order"
             android:summary="Select your default sort order"
             android:entries="@array/sort_option"
             android:entryValues="@array/sort_option_values"
