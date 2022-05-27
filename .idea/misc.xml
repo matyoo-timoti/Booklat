@@ -11,6 +11,7 @@
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/drawable/ic_delete.xml" value="0.1825" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/drawable/ic_edit.xml" value="0.1825" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2555" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/drawable/ic_more_hor.xml" value="0.2555" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/drawable/ic_plus.xml" value="0.2045" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/drawable/ic_sort.xml" value="0.2555" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/drawable/round_img_btn.xml" value="0.2555" />
@@ -18,6 +19,7 @@
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/layout/activity_main2.xml" value="0.20521590423257802" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/layout/activity_settings.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/layout/activity_splash_screen.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/layout/activity_splash_screen2.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/layout/activity_splash_screen3.xml" value="0.20521590423257802" />
@@ -26,8 +28,13 @@
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/layout/single_item.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/layout/single_item_v2.xml" value="0.536" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/menu/menu.xml" value="0.20521590423257802" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/menu/menu_item.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/menu/menu_three_dot.xml" value="0.20436083796494228" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/menu/sort_submenu.xml" value="0.20436083796494228" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/xml/array.xml" value="0.20436083796494228" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/xml/myapppreferences.xml" value="0.4" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/xml/preferences.xml" value="0.20436083796494228" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Booklat/app/src/main/res/xml/prefheaders.xml" value="0.18671875" />
       </map>
     </option>
   </component>

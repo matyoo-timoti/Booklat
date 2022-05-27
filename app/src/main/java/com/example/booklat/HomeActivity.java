@@ -1,6 +1,7 @@
 package com.example.booklat;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -60,20 +61,16 @@ public class HomeActivity extends AppCompatActivity {
             bookListView.setVisibility(View.VISIBLE);
             BookAdapter bkAdapter = new BookAdapter(this, allBooks);
             bookListView.setAdapter(bkAdapter);
+            Toast.makeText(this, String.format("Sort by: %s %s", so[0], so[1]), Toast.LENGTH_SHORT).show();
+
         } else {
             txtViewEmptyList.setVisibility(View.VISIBLE);
             bookListView.setVisibility(View.GONE);
         }
 
-        StringBuilder m = new StringBuilder();
-        m.append("Sort by: ");
-        for (String n : sortOrder) {
-            m.append(n).append(" ");
-        }
-        Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
     }
 
-    // Menu
+    // Inflate Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -91,6 +88,8 @@ public class HomeActivity extends AppCompatActivity {
                 break;
 
             case R.id.Settings:
+                Intent i = new Intent("Settings");
+                startActivity(i);
                 break;
 
             //Sub-menu items
@@ -131,9 +130,18 @@ public class HomeActivity extends AppCompatActivity {
                 .setTitle("Delete Confirmation")
                 .setNegativeButton("No", null);
         dialog.setPositiveButton("yes", (dialogInterface, i) -> {
-            database.deleteAll();
-            Toast.makeText(HomeActivity.this, "All records have been deleted", Toast.LENGTH_LONG).show();
-            refresh(sortOrder);
+            database = new SqLiteDatabase(this);
+            ArrayList<Book> allBooks = database.listOfBooks(sortOrder[0], sortOrder[1]);
+            if (allBooks.size() > 0) {
+                database.deleteAll();
+                Toast.makeText(HomeActivity.this, "All records have been deleted", Toast.LENGTH_LONG).show();
+                refresh(sortOrder);
+            }
+            AlertDialog.Builder dialog1 = new AlertDialog.Builder(this)
+                    .setTitle("ERROR")
+                    .setMessage("There are no existing records. It may have already been deleted. Please insert a record/records to be able to use this operation.")
+                    .setPositiveButton("Ok", null);
+            dialog1.show();
         });
         dialog.show();
     }
@@ -157,7 +165,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // Dialog negative button
-        builder.setNegativeButton("CANCEL", (dialogInterface, i) -> Toast.makeText(HomeActivity.this, "Add book cancelled", Toast.LENGTH_SHORT).show());
+        builder.setNegativeButton("CANCEL", null);
 
         final AlertDialog dialog = builder.create();
         dialog.show();

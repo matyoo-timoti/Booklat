@@ -100,7 +100,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
         //Pop-up menu handler
         PopupMenu popupMenu = new PopupMenu(context.getApplicationContext(), holder.btnMenu);
         Menu menu = popupMenu.getMenu();
-        popupMenu.getMenuInflater().inflate(R.menu.menu_three_dot, menu);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_item, menu);
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
 
