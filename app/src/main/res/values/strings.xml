@@ -20,4 +20,11 @@
     <string name="delete">Delete</string>
     <string name="more">more</string>
     <string name="settings">Settings</string>
+    <string name="sort">Sort</string>
+    <string name="title_asc">Title A-Z</string>
+    <string name="title_desc">Title Z-A</string>
+    <string name="author_asc">Author A-Z</string>
+    <string name="author_desc">Author Z-A</string>
+    <string name="year_oldest">Year Oldest</string>
+    <string name="year_newest">Year Newest</string>
 </resources>

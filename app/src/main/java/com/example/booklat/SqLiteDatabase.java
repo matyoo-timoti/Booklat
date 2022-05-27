@@ -14,10 +14,12 @@ public class SqLiteDatabase extends SQLiteOpenHelper {
     static final int DATABASE_VERSION = 1;
     static final String DATABASE_NAME = "BookDB";
     static final String DATABASE_TABLE = "Books";
-    static final String KEY_ID = "_id";
-    static final String KEY_TITLE = "title";
-    static final String KEY_AUTHOR = "author";
-    static final String KEY_YEAR_PUBLISHED = "yearPublished";
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_TITLE = "title";
+    public static final String COLUMN_AUTHOR = "author";
+    public static final String COLUMN_YEAR_PUBLISHED = "yearPublished";
+    public static final String ORDER_DESCENDING = "DESC";
+    public static final String ORDER_ASCENDING = "ASC";
 
     SqLiteDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -28,10 +30,10 @@ public class SqLiteDatabase extends SQLiteOpenHelper {
         try {
             String CREATE_BOOKS_TABLE = "CREATE TABLE "
                     + DATABASE_TABLE + "(" +
-                    KEY_ID + " INTEGER PRIMARY KEY," +
-                    KEY_TITLE + " TEXT," +
-                    KEY_AUTHOR + " TEXT," +
-                    KEY_YEAR_PUBLISHED + " INTEGER" + ")";
+                    COLUMN_ID + " INTEGER PRIMARY KEY," +
+                    COLUMN_TITLE + " TEXT," +
+                    COLUMN_AUTHOR + " TEXT," +
+                    COLUMN_YEAR_PUBLISHED + " INTEGER" + ")";
             database.execSQL(CREATE_BOOKS_TABLE);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,7 +49,24 @@ public class SqLiteDatabase extends SQLiteOpenHelper {
     }
 
     ArrayList<Book> listOfBooks() {
-        String sqlSelect = "SELECT * FROM " + DATABASE_TABLE;
+        String sqlSelect = String.format("SELECT * FROM %s", DATABASE_TABLE);
+        SQLiteDatabase database = this.getReadableDatabase();
+        ArrayList<Book> storeBooks = new ArrayList<>();
+        Cursor cursor = database.rawQuery(sqlSelect, null);
+        if (cursor.moveToFirst()) {
+            do {
+                int ID = Integer.parseInt(cursor.getString(0));
+                String title = cursor.getString(1);
+                String author = cursor.getString(2);
+                String yearPublished = cursor.getString(3);
+                storeBooks.add(new Book(ID, title, author, yearPublished));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return storeBooks;
+    }
+    ArrayList<Book> listOfBooks(String column, String order) {
+        String sqlSelect = String.format("SELECT * FROM %s ORDER BY %s %s", DATABASE_TABLE, column, order);
         SQLiteDatabase database = this.getReadableDatabase();
         ArrayList<Book> storeBooks = new ArrayList<>();
         Cursor cursor = database.rawQuery(sqlSelect, null);
@@ -66,25 +85,25 @@ public class SqLiteDatabase extends SQLiteOpenHelper {
 
     void addBook(Book book) {
         ContentValues values = new ContentValues();
-        values.put(KEY_TITLE, book.getTitle());
-        values.put(KEY_AUTHOR, book.getAuthor());
-        values.put(KEY_YEAR_PUBLISHED, book.getPublishedYear());
+        values.put(COLUMN_TITLE, book.getTitle());
+        values.put(COLUMN_AUTHOR, book.getAuthor());
+        values.put(COLUMN_YEAR_PUBLISHED, book.getPublishedYear());
         SQLiteDatabase database = this.getWritableDatabase();
         database.insert(DATABASE_TABLE, null, values);
     }
 
     void updateBook(Book book) {
         ContentValues values = new ContentValues();
-        values.put(KEY_TITLE, book.getTitle());
-        values.put(KEY_AUTHOR, book.getAuthor());
-        values.put(KEY_YEAR_PUBLISHED, book.getPublishedYear());
+        values.put(COLUMN_TITLE, book.getTitle());
+        values.put(COLUMN_AUTHOR, book.getAuthor());
+        values.put(COLUMN_YEAR_PUBLISHED, book.getPublishedYear());
         SQLiteDatabase database = this.getWritableDatabase();
-        database.update(DATABASE_TABLE, values, KEY_ID + " = ?", new String[]{String.valueOf(book.getId())});
+        database.update(DATABASE_TABLE, values, COLUMN_ID + " = ?", new String[]{String.valueOf(book.getId())});
     }
 
     void deleteBook(int ID) {
         SQLiteDatabase database = this.getWritableDatabase();
-        database.delete(DATABASE_TABLE, KEY_ID + " = ?", new String[]{String.valueOf(ID)});
+        database.delete(DATABASE_TABLE, COLUMN_ID + " = ?", new String[]{String.valueOf(ID)});
     }
 
     void deleteAll() {

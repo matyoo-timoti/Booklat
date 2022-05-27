@@ -106,7 +106,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> implements
 
                 case R.id.option_edit:
                     editBookDialog(book);
-                    Toast.makeText(context, String.format("%s%n%s%n%s", book.getTitle(), book.getAuthor(), book.getPublishedYear()), Toast.LENGTH_LONG).show();
                     return true;
 
                 case R.id.option_delete:

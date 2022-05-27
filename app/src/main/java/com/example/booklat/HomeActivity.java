@@ -1,5 +1,6 @@
 package com.example.booklat;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,9 +24,11 @@ import java.util.ArrayList;
 public class HomeActivity extends AppCompatActivity {
     private SqLiteDatabase database;
     private RecyclerView bookListView;
+    private String[] sortOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -35,8 +38,11 @@ public class HomeActivity extends AppCompatActivity {
         bookListView.setLayoutManager(linearLayoutManager);
         bookListView.setHasFixedSize(true);
 
+        //Default order is by ID ascending
+        sortOrder = new String[]{SqLiteDatabase.COLUMN_TITLE, SqLiteDatabase.ORDER_ASCENDING};
+
         //Populate the recycler view
-        refresh();
+        refresh(sortOrder);
 
         // Floating button
         ExtendedFloatingActionButton btnAddNew = findViewById(R.id.fabAddNew);
@@ -44,9 +50,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     //refresh recycler view
-    public void refresh() {
+    public void refresh(String[] so) {
         database = new SqLiteDatabase(this);
-        ArrayList<Book> allBooks = database.listOfBooks();
+        ArrayList<Book> allBooks = database.listOfBooks(so[0], so[1]);
         TextView txtViewEmptyList = findViewById(R.id.textViewNoItem);
 
         if (allBooks.size() > 0) {
@@ -58,6 +64,13 @@ public class HomeActivity extends AppCompatActivity {
             txtViewEmptyList.setVisibility(View.VISIBLE);
             bookListView.setVisibility(View.GONE);
         }
+
+        StringBuilder m = new StringBuilder();
+        m.append("Sort by: ");
+        for (String n : sortOrder) {
+            m.append(n).append(" ");
+        }
+        Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
     }
 
     // Menu
@@ -68,8 +81,51 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     // Menu buttons
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.delAll:
+                deleteAll();
+                break;
+
+            case R.id.Settings:
+                break;
+
+            //Sub-menu items
+            case R.id.sort_title_asc:
+                sortOrder = new String[]{SqLiteDatabase.COLUMN_TITLE, SqLiteDatabase.ORDER_ASCENDING};
+                break;
+
+            case R.id.sort_title_desc:
+                sortOrder = new String[]{SqLiteDatabase.COLUMN_TITLE, SqLiteDatabase.ORDER_DESCENDING};
+                break;
+
+            case R.id.sort_author_asc:
+                sortOrder = new String[]{SqLiteDatabase.COLUMN_AUTHOR, SqLiteDatabase.ORDER_ASCENDING};
+                break;
+
+            case R.id.sort_author_desc:
+                sortOrder = new String[]{SqLiteDatabase.COLUMN_AUTHOR, SqLiteDatabase.ORDER_DESCENDING};
+                break;
+
+            case R.id.sort_year_asc:
+                sortOrder = new String[]{SqLiteDatabase.COLUMN_YEAR_PUBLISHED, SqLiteDatabase.ORDER_ASCENDING};
+                break;
+
+            case R.id.sort_year_desc:
+                sortOrder = new String[]{SqLiteDatabase.COLUMN_YEAR_PUBLISHED, SqLiteDatabase.ORDER_DESCENDING};
+                break;
+
+            default:
+                return false;
+        }
+        refresh(sortOrder);
+        return true;
+    }
+
+    private void deleteAll() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setMessage("Are you sure you want to delete all records? Records cannot be retrieved once deleted.")
                 .setTitle("Delete Confirmation")
@@ -77,10 +133,9 @@ public class HomeActivity extends AppCompatActivity {
         dialog.setPositiveButton("yes", (dialogInterface, i) -> {
             database.deleteAll();
             Toast.makeText(HomeActivity.this, "All records have been deleted", Toast.LENGTH_LONG).show();
-            refresh();
+            refresh(sortOrder);
         });
         dialog.show();
-        return true;
     }
 
     // Add new book entry dialog
@@ -120,7 +175,7 @@ public class HomeActivity extends AppCompatActivity {
                 Book newBook = new Book(title, author, yearPub);
                 Toast.makeText(this, String.format("New record: %s added", title), Toast.LENGTH_LONG).show();
                 database.addBook(newBook);
-                refresh();
+                refresh(sortOrder);
                 dialog.dismiss();
             }
         });

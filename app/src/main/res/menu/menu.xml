@@ -5,9 +5,41 @@
     <item
         android:id="@+id/delAll"
         android:title="@string/delete_all"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/Settings"
         android:title="@string/settings"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/sortOrder"
+        android:icon="@drawable/ic_sort"
+        android:title="@string/sort"
+        app:showAsAction="ifRoom">
+
+        <!--Sub-items-->
+        <menu>
+            <item
+                android:id="@+id/sort_title_asc"
+                android:title="@string/title_asc" />
+            <item
+                android:id="@+id/sort_title_desc"
+                android:title="@string/title_desc" />
+            <item
+                android:id="@+id/sort_author_asc"
+                android:title="@string/author_asc" />
+            <item
+                android:id="@+id/sort_author_desc"
+                android:title="@string/author_desc" />
+            <item
+                android:id="@+id/sort_year_asc"
+                android:title="@string/year_oldest" />
+            <item
+                android:id="@+id/sort_year_desc"
+                android:title="@string/year_newest" />
+        </menu>
+
+    </item>
+
 </menu>
